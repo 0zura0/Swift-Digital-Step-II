@@ -1,0 +1,32 @@
+CREATE TABLE teacher (
+  teacher_id INT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  surname VARCHAR(50) NOT NULL,
+  gender VARCHAR(10) NOT NULL,
+  subject VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE pupil (
+  pupil_id INT IDENTITY(1,1) PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  gender VARCHAR(10) NOT NULL,
+  class INT NOT NULL
+);
+
+CREATE TABLE teacher_pupil (
+  teacher_id INT NOT NULL,
+  pupil_id INT NOT NULL,
+  PRIMARY KEY (teacher_id, pupil_id),
+  FOREIGN KEY (teacher_id) REFERENCES teacher (teacher_id) ON DELETE CASCADE,
+  FOREIGN KEY (pupil_id) REFERENCES pupil (pupil_id) ON DELETE CASCADE
+);
+
+
+ეს სტრიქონი შექმნილი ბაზის query ში
+
+SELECT DISTINCT t.name, t.surname
+FROM teacher t
+INNER JOIN teacher_pupil tp ON t.teacher_id = tp.teacher_id
+INNER JOIN pupil p ON tp.pupil_id = p.pupil_id
+WHERE p.first_name = 'Giorgi';
